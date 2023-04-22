@@ -124,6 +124,7 @@ if __name__ == '__main__':
     # Parameters of generation, resolution and number of samples
     scale = 1
     size_generate = 10000
+    size_buffer = 2000
 
     base_dir = f"bouncing_ball/"
     data_dir = f"bouncingball_{int(0.8 * size_generate)}samples/"
@@ -133,7 +134,15 @@ if __name__ == '__main__':
 
     # Generate the training/val set
     cannon = BallBox(dt=0.5, res=(32*scale, 32*scale), init_pos=(16*scale, 16*scale), init_std=8, wall=None, gravity=(0.0, 0.0), ball_color="white")
-    images, states = cannon.run(delay=None, iterations=20, sequences=size_generate, radius=4, angle_limits=(0, 360), velocity_limits=(5.0, 10.0), save='npz')
+    images, states = cannon.run(delay=None, iterations=20, sequences=size_generate + size_buffer, radius=4, angle_limits=(0, 360), velocity_limits=(5.0, 10.0), save='npz')
+
+    # Remove any bad samples in the generation, such as the ball going out of bounds
+    rows = np.unique(np.where(np.all(images.reshape([images.shape[0], images.shape[1], -1]) == 0, axis=2))[0])
+    images = np.delete(images, rows, 0)
+    states = np.delete(states, rows, 0)
+    images = images[:size_generate, :]
+    states = states[:size_generate, :]
+
     images[images > 0] = 1.0
     print(f"Images: {images.shape} | States: {states.shape}")
 
@@ -147,5 +156,5 @@ if __name__ == '__main__':
         os.mkdir(f"{base_dir}/{data_dir}/")
 
     # Save as individual files
-    np.savez(os.path.abspath(f"{base_dir}/{data_dir}/bb_train.npz"), images=train_images, states=train_states)
-    np.savez(os.path.abspath(f"{base_dir}/{data_dir}/bb_test.npz"), images=test_images, states=test_states)
+    np.savez(os.path.abspath(f"{base_dir}/{data_dir}/train.npz"), images=train_images, states=train_states)
+    np.savez(os.path.abspath(f"{base_dir}/{data_dir}/test.npz"), images=test_images, states=test_states)

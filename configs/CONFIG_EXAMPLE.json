@@ -12,7 +12,7 @@
 
   "integrator": "rk4",
   "integrator_params": {
-    "step_size": 1.0
+    "step_size": 0.5
   },
 
   "dataset": "bouncing_ball",
@@ -24,15 +24,15 @@
   "batch_size": 32,
   "output_every_n_epochs": 10,
 
-  "learning_rate": 1e-3,
+  "learning_rate": 5e-4,
 
   "dim": 32,
 
-  "latent_dim": 3,
+  "latent_dim": 12,
   "latent_act": "swish",
   "num_layers": 2,
   "num_hidden": 128,
-  "num_filt": 8,
+  "num_filt": 32,
 
   "z_amort": 5,
   "generation_len": 20
