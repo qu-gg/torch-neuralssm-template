@@ -1,0 +1,39 @@
+{
+  "exptype": "testing",
+  "ckpt_path": "experiments/testing/node/version_1/",
+  "checkpt": "None",
+  "gpus": [0],
+
+  "model": "node",
+
+  "metrics": [
+    "recon_mse"
+  ],
+
+  "integrator": "rk4",
+  "integrator_params": {
+    "step_size": 1.0
+  },
+
+  "dataset": "bouncing_ball",
+  "dataset_ver": "bouncingball_8000samples",
+  "dataset_percent": 1.0,
+  "batches_to_save": 25,
+
+  "num_epochs": 100,
+  "batch_size": 32,
+  "output_every_n_epochs": 10,
+
+  "learning_rate": 1e-3,
+
+  "dim": 32,
+
+  "latent_dim": 3,
+  "latent_act": "swish",
+  "num_layers": 2,
+  "num_hidden": 128,
+  "num_filt": 8,
+
+  "z_amort": 5,
+  "generation_len": 20
+}
