@@ -137,6 +137,26 @@ To specify additional metrics that are tracked automatically, one just needs to 
 <p align='center'><img src="https://user-images.githubusercontent.com/32918812/233155855-8ca2b591-2f90-4558-905f-14fc83b4c09a.png" alt="metric example" /></p>
 <p align='center'>Fig 4. Example function of a metric.</p>
 
+<!-- EXAMPLE -->
+<a name="providedExample"></a>
+## Sample Experiment
+Here are the results of a simple trained neural state-space model on the single-gravity bouncing ball dataset without much hyperparameter tuning being done.
+The model was trained using the same settings as the provided <code>CONFIG_EXAMPLE.json</code> file.
+
+<details><summary><em>[Click to show the results for the Bouncing Ball experiment]</em></summary>
+
+<p align='center'><img src="https://user-images.githubusercontent.com/32918812/233814719-42a26d75-81aa-4f47-91ab-021ec604d4e3.png" alt="bb example" /></p>
+<p align='center'>Fig 5. Forecasted validation samples when given 5 observed frames.</p>
+
+<p align='center'><img src="https://user-images.githubusercontent.com/32918812/233814783-e8b6a76f-ea34-4ce6-b185-abbd5d5e2e10.png" alt="bb train mse" /></p>
+<p align='center'>Fig 6. Value of the training reconstruction MSE over steps.</p>
+
+<p align='center'><img src="https://user-images.githubusercontent.com/32918812/233814819-c1032ed3-e4ef-4206-a857-0fb85023cb4a.png" alt="bb val mse" /></p>
+<p align='center'>Fig 6. Value of the validation reconstruction MSE over steps, sampled every 10 epochs.</p>
+
+</details>
+
+
 <!-- CONTRIBUTIONS -->
 <a name="contributions"></a>
 ## Contributions
