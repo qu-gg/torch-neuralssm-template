@@ -102,13 +102,11 @@ class LatentDynamicsModel(pytorch_lightning.LightningModule):
 
         # Get predictions
         preds, embeddings = self(images, generation_len)
-
-        # Restrict images to start from after inference, for metrics and likelihood
         return images, states, preds, embeddings
 
     def get_step_losses(self, images, preds):
         """
-        Handles getting the ELBO terms for the given step
+        Handles getting the loss terms for the given step
         :param images: ground truth images
         :param preds: forward predictions from the model
         :return: likelihood, model-specific dynamics loss
@@ -127,7 +125,7 @@ class LatentDynamicsModel(pytorch_lightning.LightningModule):
         :param outputs: list of dictionaries with outputs from each back
         :return: dictionary of metrics aggregated over the epoch
         """
-        # Convert outputs to Tensors and then Numpy arrays
+        # Convert outputs to Tensors
         images = torch.vstack([out["images"] for out in outputs])
         preds = torch.vstack([out["preds"] for out in outputs])
 
