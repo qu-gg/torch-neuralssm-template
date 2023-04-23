@@ -1,5 +1,5 @@
 """
-@file twomix_gravity.py
+@file generate_bouncingball.py
 
 Handles generating a mixed set of a simple static velocity set (left to right, same initial velocities) alongside
 a single gravity

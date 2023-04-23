@@ -5,6 +5,7 @@ Utility functions across files
 """
 import os
 import json
+import numpy as np
 import torch.nn as nn
 import pytorch_lightning
 
@@ -127,3 +128,27 @@ def strtobool(val):
         return False
     else:
         raise ValueError("invalid truth value %r" % (val,))
+
+
+def find_best_epoch(ckpt_folder):
+    """
+    Find the highest epoch in the Test Tube file structure.
+    :param ckpt_folder: dir where the checpoints are being saved.
+    :return: float of the highest epoch reached by the checkpoints.
+    """
+    best_ckpt = None
+    best_epoch = None
+    best = np.inf
+    filenames = os.listdir(f"{ckpt_folder}/checkpoints/")
+    for filename in filenames:
+        if "last" in filename:
+            continue
+
+        test_value = float(filename[:-5].split("_")[-1].replace('mse', ''))
+        test_epoch = int(filename.split('-')[0].replace('epoch', ''))
+        if test_value < best:
+            best = test_value
+            best_ckpt = filename
+            best_epoch = test_epoch
+
+    return best_ckpt, best_epoch

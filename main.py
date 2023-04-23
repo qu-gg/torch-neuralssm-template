@@ -4,14 +4,13 @@
 Main entrypoint for the training and testing environments. Takes in a configuration file
 of arguments and either trains a model or tests a given model and checkpoint.
 """
-import os
 import shutil
 import argparse
 import pytorch_lightning
 
 from torch.utils.data import DataLoader
-from utils.dataloader import  BaseDataset
-from utils.utils import parse_args, get_exp_versions, strtobool
+from utils.dataloader import BaseDataset
+from utils.utils import parse_args, get_exp_versions, strtobool, find_best_epoch
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint, LearningRateMonitor
 
 
@@ -71,23 +70,20 @@ if __name__ == '__main__':
     # Check whether to train, resume training from a checkpoint, or test
     if args.train is True and args.resume is False:
         trainer.fit(model, train_dataloader, test_dataloader)
+
+    # If resuming training, get the last ckpt if not given one
+    elif args.train is True and args.resume is True:
+        ckpt_path = args.ckpt_path + "/checkpoints/" + args.checkpt if args.checkpt != "None" \
+            else f"{args.ckpt_path}/checkpoints/last.ckpt"
+
+        trainer.fit(model, train_dataloader, test_dataloader, ckpt_path=ckpt_path)
+
+    # Otherwise test the model, using the best epoch if none is given
     else:
-        # Get the checkpoint - either a given one or the last.ckpt in the folder
-        if args.checkpt != "None":
-            ckpt_path = args.ckpt_path + "/checkpoints/" + args.checkpt
-        else:
-            ckpt_path = f"{args.ckpt_path}/checkpoints/{os.listdir(f'{args.ckpt_path}/checkpoints/')[-1]}"
+        ckpt_path = args.ckpt_path + "/checkpoints/" + args.checkpt if args.checkpt != "None" \
+            else f"{args.ckpt_path}/checkpoints/{find_best_epoch(args.ckpt_path)[0]}"
 
-        # If it is training, then resume from the given checkpoint
-        if args.train is True:
-            trainer.fit(
-                model, train_dataloader, test_dataloader,
-                ckpt_path=f"{args.ckpt_path}/checkpoints/{os.listdir(f'{args.ckpt_path}/checkpoints/')[-1]}"
-            )
-
-        # Otherwise test the model
-        else:
-            trainer.test(model, test_dataloader, ckpt_path=ckpt_path)
+        trainer.test(model, test_dataloader, ckpt_path=ckpt_path)
 
     # After running the given task, delete the last generated lightning_logs
     shutil.rmtree(f"lightning_logs/version_{top}")
