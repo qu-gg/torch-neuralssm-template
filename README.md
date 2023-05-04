@@ -43,7 +43,7 @@ Due to their explicit differentiation of transition and emission and leveraging 
 Given the fast pace of progress in latent dynamics modeling over recent years, many models have been presented under a variety of terminologies and proposed frameworks - examples being variational latent recurrent models<sup>[5,9,10,11,12,22]</sup>, deep state-space models<sup>[1,2,3,7,13,14]</sup>, and deterministic encoding-decoding models<sup>[4,15,16]</sup>. Despite differences in appearance, they all adhere to the same conceptual framework of latent variable modeling and state-space disentanglement. As such, they can be unified under the terminology of Neural SSMs and differentiated into the two base choices of probabilistic graphical models that they adhere to: <i>state estimation</i> (Fig 1A) and <i>system identification</i> (Fig. 1B). Our example in this repo focuses on the <i>system identification</i> setting (<u>B2</u> in Figure 1), in which a single initial state is used to propagate forward the entire sequence, but note that this repo is flexible and can be used in the other settings just as easily.
 
 <a name="latentSchematic"></a>
-<p align='center'><img src="https://user-images.githubusercontent.com/32918812/203471172-6dcbb898-d2fb-411f-b486-ed153b95bfc6.png" alt="latent variable schematic" /></p>
+<p align='center'><img src="https://user-images.githubusercontent.com/32918812/236128721-bba2fad6-f653-4256-9024-6aa222fec286.svg" alt="latent variable schematic" /></p>
 <p align='center'>Fig 1. Schematic of latent variable PGMs in Neural SSMS.</p>
 
 <!-- IMPLEMENTATION -->
